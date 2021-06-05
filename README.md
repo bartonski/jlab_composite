@@ -6,7 +6,8 @@ Overlay gif from jlab over an animation
 
     Usage: ./jlab_composite.sh -i INPUT FILE [-b BPM] [-f FPS] [-s SCALE]
                     [-o FRAME OFFSET] [-x X-OFFSET] [-y Y-OFFSET]
-                    [-d DWELL] [-j <0|1>] [-g GRAVITY] [-c CYCLES] [-v <0|1>] [-u <0|1>] [-p PATTERN]
+                    [-d DWELL] [-j <0|1>] [-g GRAVITY] [-c CYCLES] [-v <0|1>]
+                    [-u <0|1>] [-p PATTERN] [-t TO_FILE]
 
     -i INPUT FILE
     -b BPM (default 160)
@@ -22,6 +23,7 @@ Overlay gif from jlab over an animation
     -v VERBOSE (0 or 1, defualt 0)
     -u DEBUG  (0 or 1, defualt 0)
     -p PATTERN (default 3)
+    -t TO_FILE (default videos/composite.mp4)
 
 ## Dependencies and installation
 
@@ -47,6 +49,6 @@ Supposing that you are going to draw juggling balls on top of `my_great_3ball_ca
 
     ./jlab_composite.sh -i my_great_3ball_cascade.mp4 -b 210 -o 7 -j 0
 
-After some processing, this will create `./composite.mp4`
+After some processing, this will create `./videos/composite.mp4`
 
-
+Pointing your web browser to <index.html> will display the video.

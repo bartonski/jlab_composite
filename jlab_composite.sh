@@ -3,7 +3,9 @@
 usage() {
 echo "Usage: $0 -i INPUT FILE [-b BPM] [-f FPS] [-s SCALE]
                 [-o FRAME OFFSET] [-x X-OFFSET] [-y Y-OFFSET]
-                [-d DWELL] [-j <0|1>] [-g GRAVITY] [-c CYCLES] [-v <0|1>] [-u <0|1>] [-p PATTERN]
+                [-d DWELL] [-j <0|1>] [-g GRAVITY] [-c CYCLES]
+                [-v <0|1>] [-u <0|1>]
+                [-p PATTERN] [-t TO_FILE]
 
 -i INPUT FILE
 -b BPM (default 160)
@@ -18,13 +20,14 @@ echo "Usage: $0 -i INPUT FILE [-b BPM] [-f FPS] [-s SCALE]
 -c CYCLES number of times through the pattern (default 1)
 -v VERBOSE (0 or 1, defualt 0)
 -u DEBUG  (0 or 1, defualt 0)
--p PATTERN (default 3)" 1>&2;
+-p PATTERN (default 3)
+-t TO_FILE (output file, default videos/composite.mp4)" 1>&2;
     exit 1 
 }
 
 verbose() { if [ $verbose -eq 1 ]; then echo "$@" 1>&2; fi; }
 
-while getopts ":i:b:f:s:o:x:y:d:j:g:c:v:u:p" opt; do
+while getopts ":i:b:f:s:o:x:y:d:j:g:c:v:u:p:t:" opt; do
     case "${opt}" in
         i)
             input_file=${OPTARG}
@@ -66,6 +69,9 @@ while getopts ":i:b:f:s:o:x:y:d:j:g:c:v:u:p" opt; do
             verbose=${OPTARG}
             ;;
         d)
+            to_file=${OPTARG}
+            ;;
+        d)
             debug=${OPTARG}
             ;;
         *)
@@ -94,6 +100,10 @@ dwell=${dwell:=1.0}
 gravity=${gravity:=980}
 cycles=${cycles:=1}
 pattern=${pattern:=3}
+to_file=${to_file:="videos/composite.mp4"}
+
+# TODO: read the path of $to_file; create the directory if it doesn't
+#       already exist.
 
 verbose "  input_file = ${input_file}"
 verbose "         bpm = ${bpm}"
@@ -101,6 +111,7 @@ verbose "         fps = ${fps}"
 verbose "       scale = ${scale}"
 verbose "frame_offset = ${frame_offset}"
 verbose "     pattern = ${pattern}"
+
 
 rescale() { perl -e 'printf "%d\n", $ARGV[0] * $ARGV[1]' $1 $2; }
 
@@ -176,4 +187,4 @@ for ((cycle=0; $cycle < $cycles; cycle++)) {
     }
 }
 
-ffmpeg -framerate $fps -i frames/composite/%04d.out.png composite.mp4
+ffmpeg -framerate $fps -i frames/composite/%04d.out.png $to_file

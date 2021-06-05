@@ -51,4 +51,4 @@ Supposing that you are going to draw juggling balls on top of `my_great_3ball_ca
 
 After some processing, this will create `./videos/composite.mp4`
 
-Pointing your web browser to <index.html> will display the video.
+Pointing your web browser to [index.html](./index.html) will display the video.
